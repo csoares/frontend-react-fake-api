@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ setToken }) => {
+  const [email, setEmail] = useState("abc@def.com");
+  const [password, setPassword] = useState("12345");
   const [error, setError] = useState("");
   const [ok, setOk] = useState("");
 
@@ -19,16 +19,23 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("email", data.email);
+        sessionStorage.setItem("object", JSON.stringify(data));
         setOk(true);
+        setToken(true);
         setError("");
       } else if (response.status === 401) {
+        sessionStorage.removeItem("token");
         setError("Incorrect email or password.");
         setOk(false);
       } else {
+        sessionStorage.removeItem("token");
         setError("An error occurred. Please try again.");
         setOk(false);
       }
     } catch (error) {
+      sessionStorage.removeItem("token");
+
       setError("An error occurred. Please try again.");
       setOk(false);
     }

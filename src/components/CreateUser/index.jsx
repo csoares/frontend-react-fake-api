@@ -15,6 +15,7 @@ const CreateUser = ({ onCreateUser }) => {
       ...prevUser,
       [name]: value,
     }));
+    console.table(user);
   };
 
   const handleSubmit = async (event) => {
